@@ -5,11 +5,12 @@ import { FiAward, FiCalendar, FiDownload, FiEye } from 'react-icons/fi';
 import { certificationApi } from '@api/certificationApi';
 import Loader from '@components/common/Loader';
 import { formatDateShort } from '@utils/formatters';
-import { UPLOADS_URL, APP_NAME } from '@utils/constants';
+import { getFileUrl } from '@utils/helpers';
+import { APP_NAME } from '@utils/constants';
 
 const CertificationCard = ({ cert, index }) => {
-  const imageUrl = cert.image ? `${UPLOADS_URL}/${cert.image}` : null;
-  const pdfUrl = cert.pdf ? `${UPLOADS_URL}/${cert.pdf}` : null;
+  const imageUrl = getFileUrl(cert.image);
+  const pdfUrl = getFileUrl(cert.pdf);
 
   return (
     <motion.div
@@ -88,7 +89,7 @@ const Certifications = () => {
 
   useEffect(() => {
     certificationApi.getAll()
-      .then(({ data }) => setCertifications(data?.certifications || data?.data || data || []))
+      .then(({ data }) => setCertifications(data?.certifications || []))
       .finally(() => setLoading(false));
   }, []);
 

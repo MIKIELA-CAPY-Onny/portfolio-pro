@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useNavigate, useParams, Link } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { motion } from "framer-motion";
 import toast from "react-hot-toast";
 import { educationApi } from "@api/educationApi";
@@ -8,6 +8,7 @@ import Input from "@components/common/Input";
 import Textarea from "@components/common/TextArea";
 import Button from "@components/common/Button";
 import { extractError } from "@utils/helpers";
+import BackLink from "@components/admin/BackLink";
 
 const empty = {
   school: "",
@@ -68,13 +69,10 @@ const EducationForm = () => {
   return (
     <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
       <div className="mb-6">
-        <Link
-          to="/admin/educations"
-          className="text-xs"
-          style={{ color: "var(--text-muted)" }}
-        >
-          &larr; Retour aux formations
-        </Link>
+        <BackLink
+          fallback="/admin/educations"
+          label="Retour aux formations"
+        />
         <h1
           className="text-2xl font-bold mt-2"
           style={{ color: "var(--text-primary)" }}
@@ -125,7 +123,11 @@ const EducationForm = () => {
           />
         </div>
         <div className="flex justify-end gap-3">
-          <Button variant="ghost" onClick={() => navigate("/admin/educations")}>
+          <Button
+            variant="ghost"
+            onClick={() => navigate("/admin/educations")}
+            type="button"
+          >
             Annuler
           </Button>
           <Button type="submit" loading={saving}>

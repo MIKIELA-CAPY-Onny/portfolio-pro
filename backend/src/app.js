@@ -49,12 +49,13 @@ app.use(express.urlencoded({
 app.use(cookieParser());
 if (process.env.NODE_ENV !== 'test') app.use(morgan('dev'));
 
-// rate limiting for API
+// rate limiting for API – désactivé en développement, configurable via env
 const apiLimiter = rateLimit({
-  windowMs: 15 * 60 * 1000,
-  max: 500,
+  windowMs: parseInt(process.env.RATE_LIMIT_WINDOW_MS || '900000', 10),
+  max: parseInt(process.env.RATE_LIMIT_MAX || '1000', 10),
   standardHeaders: true,
   legacyHeaders: false,
+  skip: () => process.env.NODE_ENV === 'development',
   message: {
     success: false,
     message: 'Too many requests, please try again later.'
@@ -62,10 +63,10 @@ const apiLimiter = rateLimit({
 });
 app.use('/api', apiLimiter);
 
-// stricter limiter for login & contact
+// stricter limiter for login & contact (toujours actif, c'est le but)
 const strictLimiter = rateLimit({
   windowMs: 15 * 60 * 1000,
-  max: 20,
+  max: 30,
   message: {
     success: false,
     message: 'Too many attempts, please try again later.'

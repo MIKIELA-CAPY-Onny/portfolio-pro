@@ -7,6 +7,9 @@ const {
   asyncHandler,
   ApiError
 } = require('../middleware/errorHandler');
+const {
+  publicPath
+} = require('../middleware/upload');
 
 const signToken = (admin) =>
   jwt.sign({
@@ -71,7 +74,7 @@ const updateProfile = asyncHandler(async (req, res) => {
   const updates = {};
   if (fullname) updates.fullname = fullname;
   if (email) updates.email = email.toLowerCase();
-  if (req.file) updates.avatar = `/uploads/images/${req.file.filename}`;
+  if (req.file) updates.avatar = publicPath(req, req.file);
   if (password) updates.password = password;
 
   await req.admin.update(updates);

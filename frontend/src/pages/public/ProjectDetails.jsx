@@ -22,7 +22,7 @@ const ProjectDetails = () => {
     const load = async () => {
       try {
         const { data } = await projectApi.getBySlug(slug);
-        setProject(data?.data || data);
+        setProject(data?.project);
       } catch {
         navigate('/projects', { replace: true });
       } finally {

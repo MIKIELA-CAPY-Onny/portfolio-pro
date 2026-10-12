@@ -32,7 +32,7 @@ const createService = asyncHandler(async (req, res) => {
   const data = {
     ...req.body
   };
-  if (req.file) data.icon = `/uploads/images/${req.file.filename}`;
+  if (req.file) data.icon = `publicPath(req, req.file)`;
   const service = await Service.create(data);
   res.status(201).json({
     success: true,
@@ -47,7 +47,7 @@ const updateService = asyncHandler(async (req, res) => {
   const data = {
     ...req.body
   };
-  if (req.file) data.icon = `/uploads/images/${req.file.filename}`;
+  if (req.file) data.icon = `publicPath(req, req.file)`;
   await service.update(data);
   res.json({
     success: true,

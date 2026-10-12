@@ -11,7 +11,8 @@ const {
   ApiError
 } = require('../middleware/errorHandler');
 const {
-  UPLOAD_DIR
+  UPLOAD_DIR,
+  publicPath
 } = require('../middleware/upload');
 
 // ---------- Media library ----------
@@ -42,13 +43,12 @@ const getMedia = asyncHandler(async (req, res) => {
 
 const uploadMedia = asyncHandler(async (req, res) => {
   if (!req.file) throw new ApiError(400, 'No file uploaded');
-  const sub = req.file.mimetype === 'application/pdf' ? 'documents' : 'images';
   const media = await Media.create({
     filename: req.file.filename,
     original_name: req.file.originalname,
     mime_type: req.file.mimetype,
     size: req.file.size,
-    path: `/uploads/${sub}/${req.file.filename}`,
+    path: publicPath(req, req.file),
   });
   res.status(201).json({
     success: true,

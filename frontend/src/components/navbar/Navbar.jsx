@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { FiMenu, FiSun, FiMoon } from 'react-icons/fi';
-import { NAV_LINKS } from '@utils/constants';
+import { NAV_LINKS, GITHUB_URL } from '@utils/constants';
 import { isActivePath } from '@utils/helpers';
 import { useContext } from 'react';
 import { ThemeContext } from '@contexts/ThemeContext';
@@ -37,12 +37,18 @@ const Navbar = () => {
       >
         <div className="container">
           <nav className="flex items-center justify-between h-16 md:h-20">
-            {/* Logo */}
-            <Link to="/" className="flex items-center gap-2">
+            {/* Logo – renvoie vers le GitHub */}
+            <a
+              href={GITHUB_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-2"
+              aria-label="GitHub"
+            >
               <span className="text-xl md:text-2xl font-bold text-gradient">
                 Portfolio<span className="text-white">.</span>
               </span>
-            </Link>
+            </a>
 
             {/* Desktop Nav */}
             <ul className="hidden lg:flex items-center gap-1">

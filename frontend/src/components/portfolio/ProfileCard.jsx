@@ -1,19 +1,14 @@
 import { motion } from 'framer-motion';
-import { FiDownload, FiMail, FiGithub, FiLinkedin } from 'react-icons/fi';
+import { FiMail, FiGithub, FiLinkedin } from 'react-icons/fi';
 import { Link } from 'react-router-dom';
 import Button from '@components/common/Button';
+import CvDownload from '@components/portfolio/CvDownload';
 import { getFileUrl, getInitials } from '@utils/helpers';
 
 const ProfileCard = ({ profile }) => {
   if (!profile) return null;
 
   const avatarUrl = getFileUrl(profile.avatar);
-
-  const handleDownloadCV = () => {
-    if (profile.cv) {
-      window.open(getFileUrl(profile.cv), '_blank');
-    }
-  };
 
   return (
     <div className="flex flex-col items-center text-center">
@@ -82,14 +77,7 @@ const ProfileCard = ({ profile }) => {
         transition={{ delay: 0.3 }}
         className="flex flex-wrap items-center justify-center gap-3 mb-6"
       >
-        {profile.cv && (
-          <Button
-            onClick={handleDownloadCV}
-            icon={<FiDownload size={18} />}
-          >
-            Télécharger CV
-          </Button>
-        )}
+        {profile.cv && <CvDownload cv={profile.cv} label={`CV de ${profile.fullname}`} />}
         <Link to="/contact">
           <Button variant="outline" icon={<FiMail size={18} />}>
             Me contacter

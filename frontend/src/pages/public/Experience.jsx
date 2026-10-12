@@ -13,7 +13,7 @@ const Experiences = () => {
 
   useEffect(() => {
     experienceApi.getAll()
-      .then(({ data }) => setExperiences(data?.data || data || []))
+      .then(({ data }) => setExperiences(data?.experiences || []))
       .finally(() => setLoading(false));
   }, []);
 

@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useNavigate, useParams, Link } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import toast from 'react-hot-toast';
 import { experienceApi } from '@api/experienceApi';
@@ -8,6 +8,7 @@ import Input from '@components/common/Input';
 import Textarea from '@components/common/TextArea';
 import Button from '@components/common/Button';
 import { extractError } from '@utils/helpers';
+import BackLink from '@components/admin/BackLink';
 
 const empty = {
   company: '',
@@ -69,9 +70,7 @@ const ExperienceForm = () => {
   return (
     <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
       <div className="mb-6">
-        <Link to="/admin/experiences" className="text-xs" style={{ color: 'var(--text-muted)' }}>
-          &larr; Retour aux expériences
-        </Link>
+        <BackLink fallback="/admin/experiences" label="Retour aux expériences" />
         <h1 className="text-2xl font-bold mt-2" style={{ color: 'var(--text-primary)' }}>
           {isEdit ? "Modifier l'expérience" : 'Nouvelle expérience'}
         </h1>
@@ -102,7 +101,7 @@ const ExperienceForm = () => {
           Poste actuel
         </label>
         <div className="flex justify-end gap-3">
-          <Button variant="ghost" onClick={() => navigate('/admin/experiences')}>Annuler</Button>
+          <Button variant="ghost" type="button" onClick={() => navigate('/admin/experiences')}>Annuler</Button>
           <Button type="submit" loading={saving}>{isEdit ? 'Mettre à jour' : 'Créer'}</Button>
         </div>
       </form>

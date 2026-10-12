@@ -22,10 +22,37 @@ const ensureDir = (sub) => {
   return dir;
 };
 
+/**
+ * Choisit le sous-dossier de destination selon la route appelante et le type
+ * de fichier, conformément à la structure documentée (src/uploads/README.md) :
+ *   avatars/  -> photos de profil
+ *   certificates/ -> certifications (image ou PDF)
+ *   cv/       -> CV du profil
+ *   documents/ -> documents PDF génériques (médiathèque)
+ *   media/    -> fichiers média génériques (médiathèque, logos, icônes, logo du site)
+ *   projects/ -> images des projets
+ */
+const subFor = (req, file) => {
+  const url = `${req.baseUrl || ''}${req.originalUrl || req.url || ''}`;
+  const isPdf = file.mimetype === 'application/pdf';
+  if (url.includes('/profile/cv')) return isPdf ? 'cv' : 'avatars';
+  if (url.includes('/certifications')) return 'certificates';
+  if (url.includes('/projects')) return 'projects';
+  if (url.includes('/auth')) return 'avatars';
+  if (url.includes('/media')) return isPdf ? 'documents' : 'media';
+  if (isPdf) return 'documents';
+  return 'media';
+};
+
+/**
+ * Chemin public servi par express.static : /uploads/<sub>/<filename>
+ * À utiliser dans les contrôleurs pour stocker le chemin en base.
+ */
+const publicPath = (req, file) => `/uploads/${subFor(req, file)}/${file.filename}`;
+
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    const sub = file.mimetype === 'application/pdf' ? 'documents' : 'images';
-    cb(null, ensureDir(sub));
+    cb(null, ensureDir(subFor(req, file)));
   },
   filename: (req, file, cb) => {
     const ext = path.extname(file.originalname).toLowerCase();
@@ -55,4 +82,4 @@ const uploadCertFiles = multer({ storage, fileFilter, limits: { fileSize: MAX_FI
   { name: 'gallery', maxCount: 10 },
 ]);
 
-module.exports = { upload, uploadCertFiles, UPLOAD_DIR, ensureDir };
+module.exports = { upload, uploadCertFiles, UPLOAD_DIR, ensureDir, subFor, publicPath };

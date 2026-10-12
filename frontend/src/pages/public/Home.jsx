@@ -19,7 +19,7 @@ const Home = () => {
 
   useEffect(() => {
     dispatch(fetchProfile());
-    dispatch(fetchProjects({ featured: 1, limit: 3 }));
+    dispatch(fetchProjects({ featured: 'true', limit: 3 }));
     dispatch(fetchSkills());
   }, [dispatch]);
 

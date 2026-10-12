@@ -1,5 +1,5 @@
 ﻿import { useEffect, useState } from 'react';
-import { useNavigate, useParams, Link } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import toast from 'react-hot-toast';
 import { skillApi } from '@api/skillApi';
@@ -10,6 +10,7 @@ import Textarea from '@components/common/TextArea';
 import Button from '@components/common/Button';
 import { SKILL_CATEGORIES, SKILL_LEVELS } from '@utils/constants';
 import { extractError } from '@utils/helpers';
+import BackLink from '@components/admin/BackLink';
 
 const empty = {
   name: '',
@@ -63,9 +64,7 @@ const SkillForm = () => {
   return (
     <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
       <div className="mb-6">
-        <Link to="/admin/skills" className="text-xs" style={{ color: 'var(--text-muted)' }}>
-          &larr; Retour aux compétences
-        </Link>
+        <BackLink fallback="/admin/skills" label="Retour aux compétences" />
         <h1 className="text-2xl font-bold mt-2" style={{ color: 'var(--text-primary)' }}>
           {isEdit ? 'Modifier la compétence' : 'Nouvelle compétence'}
         </h1>
@@ -88,7 +87,7 @@ const SkillForm = () => {
         <Select label="Niveau" value={form.level} onChange={set('level')} options={SKILL_LEVELS} required />
         <Textarea label="Description (optionnel)" value={form.description || ''} onChange={set('description')} />
         <div className="flex justify-end gap-3">
-          <Button variant="ghost" onClick={() => navigate('/admin/skills')}>Annuler</Button>
+          <Button variant="ghost" type="button" onClick={() => navigate('/admin/skills')}>Annuler</Button>
           <Button type="submit" loading={saving}>{isEdit ? 'Mettre à jour' : 'Créer'}</Button>
         </div>
       </form>

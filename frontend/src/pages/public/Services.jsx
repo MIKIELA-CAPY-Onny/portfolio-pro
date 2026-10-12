@@ -12,7 +12,7 @@ const Services = () => {
 
   useEffect(() => {
     serviceApi.getAll({ active: 1 })
-      .then(({ data }) => setServices(data?.data || data || []))
+      .then(({ data }) => setServices(data?.services || []))
       .finally(() => setLoading(false));
   }, []);
 

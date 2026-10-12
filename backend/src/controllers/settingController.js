@@ -30,7 +30,7 @@ const updateSettings = asyncHandler(async (req, res) => {
     ]
   });
   if (!setting) setting = await Setting.create({});
-  if (req.file) setting.logo = `/uploads/images/${req.file.filename}`;
+  if (req.file) setting.logo = `publicPath(req, req.file)`;
   await setting.update(req.body);
   res.json({
     success: true,

@@ -1,6 +1,6 @@
 import { useContext } from 'react';
-import { useLocation } from 'react-router-dom';
-import { FiMenu, FiSun, FiMoon, FiBell } from 'react-icons/fi';
+import { Link, useLocation } from 'react-router-dom';
+import { FiMenu, FiSun, FiMoon, FiBell, FiExternalLink } from 'react-icons/fi';
 import { ThemeContext } from '@contexts/ThemeContext';
 
 const pageTitles = {
@@ -51,6 +51,19 @@ const Header = ({ onMenuToggle }) => {
 
       {/* Actions */}
       <div className="flex items-center gap-2">
+        <Link
+          to="/"
+          className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium
+                     transition-all hover:opacity-80"
+          style={{
+            border: '1px solid var(--border-color)',
+            color: 'var(--color-primary-light)',
+          }}
+          title="Voir le site public"
+        >
+          <FiExternalLink size={14} />
+          Voir le site
+        </Link>
         <button
           onClick={toggleTheme}
           className="p-2 rounded-lg hover:bg-white/10 transition-colors"

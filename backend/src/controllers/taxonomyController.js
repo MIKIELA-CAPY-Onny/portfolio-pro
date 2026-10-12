@@ -101,7 +101,7 @@ const createTechnology = asyncHandler(async (req, res) => {
   const data = {
     name: req.body.name.trim()
   };
-  if (req.file) data.icon = `/uploads/images/${req.file.filename}`;
+  if (req.file) data.icon = `publicPath(req, req.file)`;
   const technology = await Technology.create(data);
   res.status(201).json({
     success: true,

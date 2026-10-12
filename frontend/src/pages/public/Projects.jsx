@@ -28,10 +28,10 @@ const Projects = () => {
         page: currentPage,
         limit,
         search,
-        category_id: activeCategory || undefined,
+        category: activeCategory || undefined,
         published: 1,
       });
-      setProjects(data?.projects || data?.data || data || []);
+      setProjects(data?.projects || []);
       setTotal(data?.pagination?.total || data?.total || 0);
     } finally {
       setLoading(false);

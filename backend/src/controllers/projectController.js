@@ -12,10 +12,12 @@ const {
   ApiError
 } = require('../middleware/errorHandler');
 
-const slugify = (s) =>
-  s.toString().toLowerCase().trim()
-  .replace(/[^a-z0-9\s-]/g, '').replace(/[\s_]+/g, '-')
-  .replace(/-+/g, '-').replace(/^-|-$/g, '');
+const {
+  slugify
+} = require('../utils');
+const {
+  publicPath
+} = require('../middleware/upload');
 
 const INCLUDE = [{
     model: Category,
@@ -107,7 +109,7 @@ const createProject = asyncHandler(async (req, res) => {
     ...req.body
   };
   data.slug = data.slug ? slugify(data.slug) : slugify(data.title || `project-${Date.now()}`);
-  if (req.files ?.cover ?. [0]) data.cover_image = `/uploads/images/${req.files.cover[0].filename}`;
+  if (req.files ?.cover ?. [0]) data.cover_image = publicPath(req, req.files.cover[0]);
 
   const {
     technology_ids = [], images = [], ...projectData
@@ -147,13 +149,14 @@ const updateProject = asyncHandler(async (req, res) => {
   const data = {
     ...req.body
   };
-  if (req.files ?.cover ?. [0]) data.cover_image = `/uploads/images/${req.files.cover[0].filename}`;
+  if (req.files ?.cover ?. [0]) data.cover_image = publicPath(req, req.files.cover[0]);
   const {
     technology_ids,
     images,
     ...projectData
   } = data;
-
+  // Un slug vide ou absent : on le retire pour éviter une erreur d'unicité (slug '')
+  if (!projectData.slug || !String(projectData.slug).trim()) delete projectData.slug;
   await project.update(projectData);
 
   if (Array.isArray(technology_ids)) {

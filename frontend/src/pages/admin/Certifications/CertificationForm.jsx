@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useNavigate, useParams, Link } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { motion } from "framer-motion";
 import toast from "react-hot-toast";
 import { certificationApi } from "@api/certificationApi";
@@ -7,6 +7,7 @@ import Loader from "@components/common/Loader";
 import Input from "@components/common/Input";
 import Button from "@components/common/Button";
 import { extractError } from "@utils/helpers";
+import BackLink from "@components/admin/BackLink";
 
 const empty = {
   title: "",
@@ -71,13 +72,10 @@ const CertificationForm = () => {
   return (
     <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
       <div className="mb-6">
-        <Link
-          to="/admin/certifications"
-          className="text-xs"
-          style={{ color: "var(--text-muted)" }}
-        >
-          &larr; Retour aux certifications
-        </Link>
+        <BackLink
+          fallback="/admin/certifications"
+          label="Retour aux certifications"
+        />
         <h1
           className="text-2xl font-bold mt-2"
           style={{ color: "var(--text-primary)" }}
@@ -142,6 +140,7 @@ const CertificationForm = () => {
           <Button
             variant="ghost"
             onClick={() => navigate("/admin/certifications")}
+            type="button"
           >
             Annuler
           </Button>

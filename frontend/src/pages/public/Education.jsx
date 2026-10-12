@@ -60,7 +60,7 @@ const Education = () => {
 
   useEffect(() => {
     educationApi.getAll()
-      .then(({ data }) => setEducations(data?.data || data || []))
+      .then(({ data }) => setEducations(data?.educations || []))
       .finally(() => setLoading(false));
   }, []);
 

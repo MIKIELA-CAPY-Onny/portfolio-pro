@@ -7,6 +7,9 @@ const {
   asyncHandler,
   ApiError
 } = require('../middleware/errorHandler');
+const {
+  publicPath
+} = require('../middleware/upload');
 
 // ---------- Education ----------
 const getEducations = asyncHandler(async (req, res) => {
@@ -32,7 +35,7 @@ const createEducation = asyncHandler(async (req, res) => {
   const data = {
     ...req.body
   };
-  if (req.file) data.logo = `/uploads/images/${req.file.filename}`;
+  if (req.file) data.logo = publicPath(req, req.file);
   const education = await Education.create(data);
   res.status(201).json({
     success: true,
@@ -47,7 +50,7 @@ const updateEducation = asyncHandler(async (req, res) => {
   const data = {
     ...req.body
   };
-  if (req.file) data.logo = `/uploads/images/${req.file.filename}`;
+  if (req.file) data.logo = publicPath(req, req.file);
   await education.update(data);
   res.json({
     success: true,
@@ -89,7 +92,7 @@ const createExperience = asyncHandler(async (req, res) => {
   const data = {
     ...req.body
   };
-  if (req.file) data.logo = `/uploads/images/${req.file.filename}`;
+  if (req.file) data.logo = publicPath(req, req.file);
   const experience = await Experience.create(data);
   res.status(201).json({
     success: true,
@@ -104,7 +107,7 @@ const updateExperience = asyncHandler(async (req, res) => {
   const data = {
     ...req.body
   };
-  if (req.file) data.logo = `/uploads/images/${req.file.filename}`;
+  if (req.file) data.logo = publicPath(req, req.file);
   await experience.update(data);
   res.json({
     success: true,
@@ -146,8 +149,8 @@ const createCertification = asyncHandler(async (req, res) => {
   const data = {
     ...req.body
   };
-  if (req.files ?.image ?. [0]) data.image = `/uploads/images/${req.files.image[0].filename}`;
-  if (req.files ?.pdf ?. [0]) data.pdf = `/uploads/documents/${req.files.pdf[0].filename}`;
+  if (req.files ?.image ?. [0]) data.image = publicPath(req, req.files.image[0]);
+  if (req.files ?.pdf ?. [0]) data.pdf = publicPath(req, req.files.pdf[0]);
   const certification = await Certification.create(data);
   res.status(201).json({
     success: true,
@@ -162,8 +165,8 @@ const updateCertification = asyncHandler(async (req, res) => {
   const data = {
     ...req.body
   };
-  if (req.files ?.image ?. [0]) data.image = `/uploads/images/${req.files.image[0].filename}`;
-  if (req.files ?.pdf ?. [0]) data.pdf = `/uploads/documents/${req.files.pdf[0].filename}`;
+  if (req.files ?.image ?. [0]) data.image = publicPath(req, req.files.image[0]);
+  if (req.files ?.pdf ?. [0]) data.pdf = publicPath(req, req.files.pdf[0]);
   await certification.update(data);
   res.json({
     success: true,

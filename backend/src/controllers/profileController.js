@@ -5,6 +5,9 @@ const {
   asyncHandler,
   ApiError
 } = require('../middleware/errorHandler');
+const {
+  publicPath
+} = require('../middleware/upload');
 
 // GET /api/profile (public)
 const getProfile = asyncHandler(async (req, res) => {
@@ -44,8 +47,9 @@ const uploadCv = asyncHandler(async (req, res) => {
     ]
   });
   if (!profile) profile = await Profile.create({});
+  // Le middleware multer range les PDF dans 'cv/' et les images dans 'avatars/'
   await profile.update({
-    cv: `/uploads/documents/${req.file.filename}`
+    cv: publicPath(req, req.file)
   });
   res.json({
     success: true,

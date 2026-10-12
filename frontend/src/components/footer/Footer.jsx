@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import { FiGithub, FiLinkedin, FiMail, FiHeart } from 'react-icons/fi';
-import { NAV_LINKS } from '@utils/constants';
+import { NAV_LINKS, GITHUB_URL, CONTACT_EMAIL } from '@utils/constants';
 
 const Footer = () => {
   const year = new Date().getFullYear();
@@ -56,7 +56,7 @@ const Footer = () => {
             </h4>
             <div className="flex items-center gap-3">
               <a
-                href="#"
+                href={GITHUB_URL}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-10 h-10 rounded-xl flex items-center justify-center transition-all hover:scale-110"
@@ -81,17 +81,17 @@ const Footer = () => {
               >
                 <FiLinkedin size={18} />
               </a>
-              <Link
-                to="/contact"
+              <a
+                href={`mailto:${CONTACT_EMAIL}`}
                 className="w-10 h-10 rounded-xl flex items-center justify-center transition-all hover:scale-110"
                 style={{
                   backgroundColor: 'var(--bg-tertiary)',
                   color: 'var(--text-secondary)',
                 }}
-                aria-label="Contact"
+                aria-label="Email"
               >
                 <FiMail size={18} />
-              </Link>
+              </a>
             </div>
           </div>
         </div>

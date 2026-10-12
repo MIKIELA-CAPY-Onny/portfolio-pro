@@ -2,6 +2,9 @@ export const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/ap
 export const UPLOADS_URL = import.meta.env.VITE_UPLOADS_URL || 'http://localhost:5000/uploads';
 export const APP_NAME = import.meta.env.VITE_APP_NAME || 'Portfolio Pro';
 
+export const GITHUB_URL = 'https://github.com/MIKIELA-CAPY-Onny';
+export const CONTACT_EMAIL = 'mikielaonny9@gmail.com';
+
 export const TOKEN_KEY = 'portfolio_token';
 export const ADMIN_KEY = 'portfolio_admin';
 

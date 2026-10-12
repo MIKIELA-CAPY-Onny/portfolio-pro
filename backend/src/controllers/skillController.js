@@ -45,7 +45,7 @@ const createSkill = asyncHandler(async (req, res) => {
   const data = {
     ...req.body
   };
-  if (req.file) data.icon = `/uploads/images/${req.file.filename}`;
+  if (req.file) data.icon = `publicPath(req, req.file)`;
   const skill = await Skill.create(data);
   res.status(201).json({
     success: true,
@@ -60,7 +60,7 @@ const updateSkill = asyncHandler(async (req, res) => {
   const data = {
     ...req.body
   };
-  if (req.file) data.icon = `/uploads/images/${req.file.filename}`;
+  if (req.file) data.icon = `publicPath(req, req.file)`;
   await skill.update(data);
   res.json({
     success: true,

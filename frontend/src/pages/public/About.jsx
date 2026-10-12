@@ -4,14 +4,14 @@ import { Helmet } from 'react-helmet-async';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   FiMail, FiPhone, FiMapPin, FiCalendar,
-  FiGlobe, FiGithub, FiLinkedin, FiDownload,
+  FiGlobe, FiGithub, FiLinkedin,
 } from 'react-icons/fi';
 import { fetchProfile } from '@store/slices/portfolioSlice';
 import { formatDate } from '@utils/formatters';
-import { UPLOADS_URL, APP_NAME } from '@utils/constants';
+import { APP_NAME } from '@utils/constants';
 import { getInitials, getFileUrl } from '@utils/helpers';
 import Loader from '@components/common/Loader';
-import Button from '@components/common/Button';
+import CvDownload from '@components/portfolio/CvDownload';
 
 const InfoItem = ({ icon, label, value, href }) => {
   if (!value) return null;
@@ -142,16 +142,12 @@ const About = () => {
                   )}
                 </div>
 
-                {/* CV Download */}
-                {profile.cv && (
-                  <Button
-                    className="w-full justify-center"
-                    icon={<FiDownload size={18} />}
-                    onClick={() => window.open(getFileUrl(profile.cv), '_blank')}
-                  >
-                    Télécharger mon CV
-                  </Button>
-                )}
+                {/* CV : voir + télécharger */}
+                <CvDownload
+                  cv={profile.cv}
+                  label={`CV de ${profile.fullname}`}
+                  className="w-full [&>a]:justify-center [&>a]:w-full [&>button]:flex-1"
+                />
               </motion.div>
 
               {/* Biography */}
